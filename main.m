@@ -1,4 +1,4 @@
-function [out] = main()
+function [] = main()
 % 
 % switch getenv('ENV')
 %     case 'IUHPC'
@@ -14,29 +14,49 @@ mkdir('images');
 
 config = loadjson('config.json');
 
-
-filelist = dir([config.surfaces '/*.vtk']);
-for file = 1:size(filelist)
-    sprintf(filelist(file).name)
-    [V,F] = read_vtk([config.surfaces '/' filelist(file).name]);
-    filename = strrep(filelist(file).name(1:end-4),'-', '_');
+if config.single_surf
+    sprintf(config.singlesurf_filename)
+    [V,F] = read_vtk([config.surfaces '/' config.singlesurf_filename]);
+    filename = strrep(config.singlesurf_filename(1:end-4),'-', '_');
 
     [evecs, evals, error, M] = laplace_beltrami_spectrum_reconstruct(V,F,config.spectrum_size);
     if error == 0
         [origiminfo, reconiminfo] = reconstruct_surface_from_eigenfunction(V, F, evecs, M, config.spectrum_size, filename);
 
     else
-       sprintf(filelist(file).name, ' is too small') 
+       sprintf(config.singlesurf_filename, ' is too small') 
     end
     for im = 1:12
         if im < 7
-            json.images(((file-1) * 12) + im) = origiminfo(im);
+            json.images(im) = origiminfo(im);
         else
-            json.images(((file-1) * 12) + im) = reconiminfo(im-6);
+            json.images(im) = reconiminfo(im-6);
+        end
+    end
+    
+else
+    filelist = dir([config.surfaces '/*.vtk']);
+    for file = 1:size(filelist)
+        sprintf(filelist(file).name)
+        [V,F] = read_vtk([config.surfaces '/' filelist(file).name]);
+        filename = strrep(filelist(file).name(1:end-4),'-', '_');
+
+        [evecs, evals, error, M] = laplace_beltrami_spectrum_reconstruct(V,F,config.spectrum_size);
+        if error == 0
+            [origiminfo, reconiminfo] = reconstruct_surface_from_eigenfunction(V, F, evecs, M, config.spectrum_size, filename);
+
+        else
+           sprintf(filelist(file).name, ' is too small') 
+        end
+        for im = 1:12
+            if im < 7
+                json.images(((file-1) * 12) + im) = origiminfo(im);
+            else
+                json.images(((file-1) * 12) + im) = reconiminfo(im-6);
+            end
         end
     end
 end
-
 savejson('', json, 'images.json');
 % savejson('', eval_json, 'spectrum.json');
 % save('Mmatrix.mat', 'M_matrix', '-v7.3');

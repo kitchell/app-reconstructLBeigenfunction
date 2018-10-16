@@ -10,7 +10,7 @@ reconstructed = meshINVMHT(transformed, evecs, spectrum_size);
 
 Vt = V';
 
-vtkwrite(fullfile('surfaces',strcat(filename, '_recon_eigenfunction_', num2str(spectrum_size))), 'polydata', 'triangle', reconstructed(:,1), reconstructed(:,2), reconstructed(:,3), F')
+vtkwrite(fullfile('surfaces',strcat(filename, '_recon_eigenfunction_', num2str(spectrum_size),'.vtk')), 'polydata', 'triangle', reconstructed(:,1), reconstructed(:,2), reconstructed(:,3), F')
 
 for angle = 1:size(az, 2)
     %clf

@@ -11,6 +11,7 @@ function [] = main()
 % end
 
 mkdir('images');
+mkdir('surfaces');
 
 config = loadjson('config.json');
 

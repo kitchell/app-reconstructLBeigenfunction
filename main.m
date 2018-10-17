@@ -5,6 +5,8 @@ function [] = main()
 %         disp('loading paths (HPC)')
 %         addpath(genpath('/N/u/brlife/git/jsonlab'))
 %         addpath(genpath('/N/u/brlife/git/geom3d'))
+%         addpath(genpath('/N/u/kitchell/Carbonate/github_repos/export_fig'))
+
 %     case 'VM'
 %         disp('loading paths (VM)')
 %         addpath(genpath('/usr/local/jsonlab'))

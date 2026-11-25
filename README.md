@@ -2,6 +2,51 @@
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.36-blue.svg)](https://doi.org/10.25663/bl.app.36)
 
 # app-reconstructLBeigenfunction
+
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+> **Reconstructs each VTK surface mesh from its first Laplace-Beltrami eigenfunctions with compiled MATLAB code and outputs the reconstructed surfaces and comparison images.**
+
+For each .vtk surface in the input (or a single named surface when single_surf is true), computes spectrum_size Laplace-Beltrami eigenfunctions and reconstructs the mesh from them, saving the reconstructed surfaces and six views each of the original and reconstructed shapes. Use it to see how much shape detail a given number of eigenfunctions captures before Laplace-Beltrami shape analysis. Meshes with too few vertices are skipped.
+
+| | |
+|---|---|
+| 📥 **Inputs** | `neuro/3Dsurfaces` |
+| 📤 **Outputs** | `generic/images` · `neuro/3Dsurfaces` |
+| 🐳 **Container** | `brainlife/mcr:neurodebian1604-r2017a` |
+| ⚙️ **Resources** | 8 CPUs · 31 GB memory · 8 h walltime |
+| 🔗 **Run it** | [doi.org/10.25663/bl.app.36](https://doi.org/10.25663/bl.app.36) |
+
+#### 📥 Inputs
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `surfaces` | `neuro/3Dsurfaces` | yes | Directory of triangle surface meshes in VTK format. Only *.vtk files are read. |
+
+#### 📤 Outputs
+
+| Output | Datatype | Description |
+|---|---|---|
+| `images` | `generic/images` | PNG images (listed in images.json) showing six views of each original and reconstructed surface. |
+| `surfaces` | `neuro/3Dsurfaces` | Surfaces reconstructed from the selected number of Laplace-Beltrami eigenfunctions. |
+
+<details>
+<summary><b>⚙️ Parameters</b> (3)</summary>
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `single_surf` | boolean | `false` | only reconstruct a single surface |
+| `singlesurf_filename` | string |  | Include the full filename of the surface you want to reconstruct. Best practice is to copy it directly from the 3D surfaces app output |
+| `spectrum_size` | number | `50` | Number of Laplace-Beltrami eigenfunctions used to reconstruct each surface. |
+
+</details>
+
+📚 **References used by this App:**
+- Kitchell L. Shape Analysis of Human White Matter Tracts: An Examination of Normal Morphological Variability and the Association Between Morphology, Brain Size, and Behavior. Indiana University (2020).
+- Avesani P, et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. Sci Data 6:69 (2019). [doi:10.1038/s41597-019-0073-y](https://doi.org/10.1038/s41597-019-0073-y)
+
+<!-- brainlife-app:end -->
+
 This application will reconstruct the individual surfaces based on the number of selected eigenfunctions. 
 
 ### Author
